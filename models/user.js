@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
+let userSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     username: {
@@ -19,13 +19,38 @@ const userSchema = new mongoose.Schema({
     },
     hash: {
         type: String,
-        required: true,
-        trim: true
+        required: true
     },
     email: {
         type: String,
         unique: true,
         lowercase: true,
         trim: true
+    },
+    enabled: {
+        type: Boolean,
+        default: true
+    },
+    phone: Number,
+    post: {
+        type: String,
+        uppercase: true,
+        enum: ['SYS_ADMIN', 'SUPERVISING_TECHNICIAN', 'TECHNICIAN', 'USER'],
+        default: 'USER'
+    },
+    department: String,
+    ticketsRequested:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tickets'
+    }],
+    ticketsAssigned:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tickets'
+    }],
+    unit: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Units'
     }
 })
+
+module.exports = mongoose.model('User', userSchema);
