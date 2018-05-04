@@ -14,12 +14,11 @@ let userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required : true,
         trim: true
     },
     hash: {
         type: String,
-        required: true
     },
     email: {
         type: String,
@@ -41,15 +40,15 @@ let userSchema = new mongoose.Schema({
     department: String,
     ticketsRequested:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tickets'
+        ref: 'Ticket'
     }],
     ticketsAssigned:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tickets'
+        ref: 'Ticket'
     }],
     unit: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Units'
+        ref: 'Unit'
     }
 })
 

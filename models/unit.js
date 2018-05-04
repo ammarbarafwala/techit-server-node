@@ -9,7 +9,10 @@ const unitSchema = new mongoose.Schema({
     },
     phone: String,
     location: String,
-   email : String,
+   email : {
+       type:String,
+       unique:true
+   },
    description: String,
    tickets : [{
        type: mongoose.Schema.Types.ObjectId,
@@ -25,4 +28,4 @@ const unitSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Unit', ticketSchema);
+module.exports = mongoose.model('Unit', unitSchema);

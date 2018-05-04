@@ -1,7 +1,7 @@
 'use strict'
 const mongoose = require('mongoose')
 
-const updatesSchema = new mongoose.Schema({
+const updateSchema = new mongoose.Schema({
    modifier : {
        type: mongoose.Schema.Types.ObjectId,
        ref : 'User'
@@ -24,4 +24,4 @@ const updatesSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Updates', updatesSchema);
+module.exports = mongoose.model('Update', updateSchema);
