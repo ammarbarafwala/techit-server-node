@@ -22,6 +22,7 @@ passport.use(new passportJWT.Strategy({
   secretOrKey: process.env.JWT_SECRET,
   jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken()
 }, function (payload, done) {
+    console.log(payload)
   return done(null, payload);
 }));
 

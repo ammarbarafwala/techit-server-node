@@ -1,7 +1,5 @@
 'use strict'
-
 const mongoose = require('mongoose')
-
 let userSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
@@ -13,13 +11,15 @@ let userSchema = new mongoose.Schema({
         trim: true
     },
     hash: {
-        type: String
+        type: String,
+        required: true
     },
     email: {
         type: String,
         unique: true,
         lowercase: true,
-        trim: true
+        trim: true,
+        required: true
     },
     enabled: {
         type: Boolean,
@@ -33,29 +33,28 @@ let userSchema = new mongoose.Schema({
         default: 'USER'
     },
     department: String,
-    ticketsRequested:{
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ticket'
-        }],
-        select: false
-    },
-    ticketsAssigned:{
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ticket'
-        }],
-        select: false
-    },
+    ticketsRequested: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket'
+    }],
+    ticketsAssigned: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket'
+    }],
     unit: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Unit',
         default: null
     }
+},
+{
+    versionKey: false,
+    toJSON:{
+        transform: function (doc, ret) {
+            delete ret.hash
+            delete ret.ticketsAssigned
+            delete ret.ticketsRequested
+        }
+    }
 })
-userSchema.methods.toJSON = function (){
-    let obj = this.toObject()
-    delete obj.hash
-    return obj
-}
 module.exports = mongoose.model('User', userSchema);

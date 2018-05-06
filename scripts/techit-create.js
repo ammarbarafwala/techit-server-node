@@ -50,6 +50,7 @@ unitId2 = db.units.insertOne({
 // insert two users and get the generated _id
 
 userId1 = db.users.insertOne({
+    username: "admin",
     hash:"$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6", 
     firstName: "Admin", 
     lastName:"Admin", 
