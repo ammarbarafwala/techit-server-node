@@ -15,12 +15,20 @@ const ticketSchema = new mongoose.Schema({
     LastUpdated: Date,
     location: String,
     updates : [{
-     type : mongoose.Schema.Types.ObjectId,
-     ref : 'Updates'
-    }],
-
+        modifier : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        },
+        updateDetails : {
+            type: String,
+            required: true
+        },
+        modifiedDate : {
+            type: Date,
+            default: Date.now
+        }
+     }],
     completionDetails: String,
-
     progress : {
         type: String,
         enum: ['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED', 'CLOSED'],
@@ -44,8 +52,4 @@ const ticketSchema = new mongoose.Schema({
         ref : 'User'
        }]
 })
-
-
-
-
 module.exports = mongoose.model('Ticket', ticketSchema);

@@ -4,7 +4,6 @@ db = connect('localhost/techit');
 db.users.drop();
 db.tickets.drop();
 db.units.drop();
-db.updates.drop();
 
 // create a unique index on the email field in user
 
@@ -51,7 +50,6 @@ unitId2 = db.units.insertOne({
 // insert two users and get the generated _id
 
 userId1 = db.users.insertOne({
-    username:"admin", 
     hash:"$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6", 
     firstName: "Admin", 
     lastName:"Admin", 
@@ -94,51 +92,37 @@ userId5 = db.users.insertOne({
     hash:"$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6", 
     firstName: "Parth", 
     lastName:"Patel", 
-    email: "parth@localhost.com",
-    post: "USER"
+    email: "parth@localhost.com"
 }).insertedId;
 
-ticketId1 = db.ticket.insertOne({
+ticketId1 = db.tickets.insertOne({
    subject: "AC is broken", 
-   requester: userId4, 
+   requester: userId4,
+   updates: [{
+       details: "Demo",
+       modifier: userId2  
+    },
+    {
+        details: "Demo2",
+        modifier: userId2  
+    }],
    unit: unitId1,
    technicians : [userId2, userId4]
 })
 
-ticketId2 = db.ticket.insertOne({
+ticketId2 = db.tickets.insertOne({
     subject: "Projector Repair", 
     requester: userId2, 
     unit: unitId2
  })
- ticketId2 = db.ticket.insertOne({
+ ticketId2 = db.tickets.insertOne({
     subject: "Computer Failure", 
     requester: userId3, 
     unit: unitId1,
     technicians : [userId4]
  })
- ticketId4 = db.ticket.insertOne({
+ ticketId4 = db.tickets.insertOne({
     subject: "Peeling Paint", 
     requester: userId3, 
     unit: unitId1
  })
-
- db.updates.insert([
-     {
-       details: "Demo",
-       ticket_id: ticketId1,
-       modifier: userId2  
-     },
-     {
-        details: "Demo2",
-        ticket_id: ticketId1,
-        modifier: userId2  
-      }
- ])
-
-
-
-
-
-
-
-

@@ -12,13 +12,8 @@ let userSchema = new mongoose.Schema({
         lowercase: true,
         trim: true
     },
-    password: {
-        type: String,
-        required : true,
-        trim: true
-    },
     hash: {
-        type: String,
+        type: String
     },
     email: {
         type: String,
@@ -38,17 +33,20 @@ let userSchema = new mongoose.Schema({
         default: 'USER'
     },
     department: String,
-    ticketsRequested:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
+    ticketsRequested:{
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ticket'
+        }]
+    },
     ticketsAssigned:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Ticket'
     }],
     unit: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Unit'
+        ref: 'Unit',
+        default: null
     }
 })
 
