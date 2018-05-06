@@ -14,13 +14,20 @@ const unitSchema = new mongoose.Schema({
         unique:true
     },
     description: String,
-    tickets : [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
-    technicians : [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+    tickets : {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ticket'
+        }],
+        select: false
+    },
+    technicians : {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }],
+        select: false
+    },
 })
+
 module.exports = mongoose.model('Unit', unitSchema);

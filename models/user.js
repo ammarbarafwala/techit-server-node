@@ -37,17 +37,25 @@ let userSchema = new mongoose.Schema({
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Ticket'
-        }]
+        }],
+        select: false
     },
-    ticketsAssigned:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
+    ticketsAssigned:{
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ticket'
+        }],
+        select: false
+    },
     unit: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Unit',
         default: null
     }
 })
-
+userSchema.methods.toJSON = function (){
+    let obj = this.toObject()
+    delete obj.hash
+    return obj
+}
 module.exports = mongoose.model('User', userSchema);
