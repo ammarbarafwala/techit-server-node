@@ -13,24 +13,10 @@ const unitSchema = new mongoose.Schema({
         type:String,
         unique:true
     },
-    description: String,
-    tickets: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
-    technicians :[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }]
+    description: String
 },
 {
-    versionKey: false,
-    toJSON: {
-        transform: function (doc, ret) {
-            delete ret.tickets
-            delete ret.technicians
-        }
-    }
+    versionKey: false
 })
 
 module.exports = mongoose.model('Unit', unitSchema);

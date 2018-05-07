@@ -33,14 +33,13 @@ let userSchema = new mongoose.Schema({
         default: 'USER'
     },
     department: String,
-    ticketsRequested: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
-    ticketsAssigned: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }],
+    ticketsAssigned: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ticket'
+        }],
+        select: false
+    },
     unit: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Unit',
@@ -52,8 +51,6 @@ let userSchema = new mongoose.Schema({
     toJSON:{
         transform: function (doc, ret) {
             delete ret.hash
-            delete ret.ticketsAssigned
-            delete ret.ticketsRequested
         }
     }
 })
