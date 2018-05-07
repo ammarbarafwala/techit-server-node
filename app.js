@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/index', indexRouter);
 app.use('/api/login', loginService);
+app.use('/api/users', usersService);
 
 // jwt token authenticator
 app.use(passport.initialize());

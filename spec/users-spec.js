@@ -1,4 +1,6 @@
 const request = require("request");
+const User = require('../models/user');
+
 const api = request.defaults({
     baseUrl: 'http://localhost:3000/api',
     json: true
@@ -6,6 +8,7 @@ const api = request.defaults({
 
 describe('Users API Tests:', function () {
     let jwtToken = '';
+    let id = '';
     beforeAll(function (done) {
         api.post({
             url: '/login',
@@ -16,13 +19,18 @@ describe('Users API Tests:', function () {
         }, function (err, res, body) {
             expect(res.statusCode).toBe(200);
             jwtToken = body.token;
-            done();
+            api.get({
+                url: '/users/ammar'
+            }, function (err, res, body) {
+                expect(res.statusCode).toBe(200);
+                id = body._id
+                done()
+            });
         });
     });
-    console.log("jwtToken")
-    it('Get A User', function (done) {
+    it('Get User Tickets', function (done) {
         api.get({
-            url: '/users/5af01c4c0a360ded1f315035/tickets',
+            url: `/users/${id}/tickets`,
             headers: {
                 'Authorization': 'Bearer ' + jwtToken
             }
