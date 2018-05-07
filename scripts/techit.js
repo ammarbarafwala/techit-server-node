@@ -98,25 +98,25 @@ userId5 = db.users.insertOne({
     post: "USER"
 }).insertedId;
 
-ticketId1 = db.ticket.insertOne({
+ticketId1 = db.tickets.insertOne({
    subject: "AC is broken", 
    requester: userId4, 
    unit: unitId1,
    technicians : [userId2, userId4]
 })
 
-ticketId2 = db.ticket.insertOne({
+ticketId2 = db.tickets.insertOne({
     subject: "Projector Repair", 
     requester: userId2, 
     unit: unitId2
  })
- ticketId2 = db.ticket.insertOne({
+ ticketId2 = db.tickets.insertOne({
     subject: "Computer Failure", 
     requester: userId3, 
     unit: unitId1,
     technicians : [userId4]
  })
- ticketId4 = db.ticket.insertOne({
+ ticketId4 = db.tickets.insertOne({
     subject: "Peeling Paint", 
     requester: userId3, 
     unit: unitId1
