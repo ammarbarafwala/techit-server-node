@@ -13,6 +13,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var unitsRouter = require('./routes/units');
+var ticketsRouter = require('./routes/tickets');
 var loginService = require('./services/login');
 var usersService = require('./services/users');
 const {passport} = require('./security/securityutils');
@@ -36,6 +38,8 @@ app.use('/api/', passport.authenticate('jwt', {
     }));
 
 app.use('/api/users', usersRouter);
+app.use('/api/units', unitsRouter);
+app.use('/api/tickets', ticketsRouter);
   
 // error handler
 app.use(function (err, req, res, next) {
