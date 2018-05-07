@@ -46,11 +46,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500).json({ message: err.message })
 });
 
-// port listener
-app.listen(process.env.PORT || 3000,()=>{
-    console.log(`Listening on port 3000 || ${process.env.PORT}`)
-})
-
 async function shutdown(callback) {
     await mongoose.disconnect();
     if (callback) callback();
