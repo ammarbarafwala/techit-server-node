@@ -14,13 +14,21 @@ const ticketSchema = new mongoose.Schema({
     endDate: Date,
     LastUpdated: Date,
     location: String,
-    updates : [{
-     type : mongoose.Schema.Types.ObjectId,
-     ref : 'Updates'
+    updates :[{
+        modifier : {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        },
+        updateDetails : {
+            type: String,
+            required: true
+        },
+        modifiedDate : {
+            type: Date,
+            default: Date.now
+        }
     }],
-
     completionDetails: String,
-
     progress : {
         type: String,
         enum: ['OPEN', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED', 'CLOSED'],
@@ -39,13 +47,19 @@ const ticketSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User'
        },
-    technicians : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'User'
-       }]
+    technicians: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+},
+{
+    versionKey: false,
+    toJSON:{
+        transform: function (doc, ret) {
+            delete ret.technicians
+            delete ret.updates
+        }
+    }
 })
-
-
-
 
 module.exports = mongoose.model('Ticket', ticketSchema);
