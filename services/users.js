@@ -5,7 +5,7 @@ var User = require('../models/user');
 router.get('/:username', (req, res, next) => {
   console.log(req.user);
   User.findOne({
-    firstName: req.params.username
+    username: req.params.username
   }, (err, user) => {
     if (err) return next(err);
     res.json(user);

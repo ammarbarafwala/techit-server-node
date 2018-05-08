@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/index', indexRouter);
 app.use('/api/login', loginService);
+app.use('/api/users', usersService);
 
 // jwt token authenticator
 app.use(passport.initialize());
@@ -45,11 +46,6 @@ app.use('/api/tickets', ticketsRouter);
 app.use(function (err, req, res, next) {
     res.status(err.status || 500).json({ message: err.message })
 });
-
-// port listener
-app.listen(process.env.PORT || 3000,()=>{
-    console.log(`Listening on port 3000 || ${process.env.PORT}`)
-})
 
 async function shutdown(callback) {
     await mongoose.disconnect();
