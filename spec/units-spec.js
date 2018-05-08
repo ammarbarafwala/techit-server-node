@@ -7,72 +7,83 @@ const api = request.defaults({
 
 describe('Unit API Tests:', function () {
 
-  let jwtToken = '';
+  let jwtToken = '', parthJwtToken = '';
 	
 
   beforeAll(function (done) {
     api.post({
-      url: '/',
+      url: '/login',
       body: {
-        username: 'parth',
-		password: 'abcd'
+        username: 'admin',
+		    password: 'abcd'
       }
     }, function (err, res, body) {
       expect(res.statusCode).toBe(200);
       jwtToken = body.token;
-      done();
+      api.post({
+        url: '/login',
+        body: {
+          username: 'parth',
+          password: 'abcd'
+        }
+      }, function (err, res, body) {
+        console.log(err)
+        expect(res.statusCode).toBe(200);
+        parthJwtToken = body.token;
+        done();
+      });
     });
   });
 	
 	
-  // it('Get the technicians of a unit Pass', function (done) {
-  //   api.get({
-  //     url: '/units/5af09c8b4eba69dd0221d3cd/technicians',
-  //     headers: {
-  //       'Authorization': 'Bearer ' + jwtToken
-  //     }
-  //   }, function (err, res, body) {
-  //     expect(res.statusCode).toBe(200);
-  //    except(res.json.length).not.toBeLessThan(1)
-  //     done();
-  //   });
-  // });
-	
- it('Get the technicians of a unit Fail', function (done) {
+  it('Get the technicians of a unit Pass', function (done) {
     api.get({
-      url: '/units/5af09c8b4eba69dd0221d3d0/technicians',
+      url: '/units/5af127e3ee1b9efe2a362291/technicians',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
       }
     }, function (err, res, body) {
-      expect(res.statusCode).toBe(401);
+      expect(res.statusCode).toBe(200);
+      expect(body.technicians).not.toBeLessThan(1)
+      done();
+    });
+  });
+	
+ it('Get the technicians of a unit Fail', function (done) {
+    api.get({
+      url: '/units/5af127e3ee1b9efe2a362291/technicians',
+      headers: {
+        'Authorization': 'Bearer ' + parthJwtToken
+      }
+    }, function (err, res, body) {
+      expect(res.statusCode).toBe(403);
       done();
     });
   });
 	
 	
-  //  it('Get the tickets submitted to a unit Pass', function (done) {
-  //   api.get({
-  //     url: '/units/5af09c8b4eba69dd0221d3cd/tickets',
-  //     headers: {
-  //       'Authorization': 'Bearer ' + jwtToken
-  //     }
-  //   }, function (err, res, body) {
-  //     expect(res.statusCode).toBe(200);
-  //    expect(res.json.length).not.toBeLessThan(1)
-  //     done();
-  //   });
-  // });
+   it('Get the tickets submitted to a unit Pass', function (done) {
+    api.get({
+      url: '/units/5af127e3ee1b9efe2a362291/tickets',
+      headers: {
+        'Authorization': 'Bearer ' + jwtToken
+      }
+    }, function (err, res, body) {
+      expect(res.statusCode).toBe(200);
+      expect(body.tickets).not.toBeLessThan(1)
+      done();
+    });
+  });
 	
 	
 	 it('Get the tickets submitted to a unit Fail', function (done) {
     api.get({
-      url: '/units/5af09c8b4eba69dd0221d3cd/tickets',
+      url: '/units/5af127e3ee1b9efe2a362291/tickets',
       headers: {
-        'Authorization': 'Bearer ' + jwtToken
+        'Authorization': 'Bearer ' + parthJwtToken
       }
     }, function (err, res, body) {
-      expect(res.statusCode).toBe(401);
+      expect(res.statusCode).toBe(403);
       done();
     });
   });
