@@ -17,8 +17,11 @@ router.get('/:ticketId/technicians', function (req, res, next) {
 	Ticket.findById(req.params.ticketId,(err,ticket)=>{
         if(err) return next(err)
         if(ticket==null) return next(createError(400, 'No Such Ticket found'))
-        res.json({title: 'Technicians Assigned', technicians: ticket.technicians})
-    }).select('technicians').populate('technicians').exec()
+        if(req.user.profile.post == 'SYS_ADMIN'
+            || (req.user.profile.post == 'SUPERVISING_TECHNICIAN' && req.user.profile.unit == ticket.unit))
+            return res.json({title: 'Technicians Assigned', technicians: ticket.technicians})
+        next(createError(403, 'Unauthorized Access'))
+    }).select('+technicians').populate('technicians').exec()
 })
 
 router.put('/:ticketId/status/:status', function (req, res, next) {

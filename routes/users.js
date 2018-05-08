@@ -5,6 +5,7 @@ const User = require('../models/user');
 const Ticket = require('../models/ticket');
 
 router.get('/:userId/tickets', function (req, res, next) {
+	console.log("hi")
 	if( req.user.profile.post == 'SYS_ADMIN'
 			|| req.user.profile.post == 'SUPERVISING_TECHNICIAN'
 			|| req.user.profile._id == req.params.userId){
@@ -12,6 +13,7 @@ router.get('/:userId/tickets', function (req, res, next) {
 			requester: req.params.userId
 		}, (err, tickets)=>{
 			if (err) return next(err)
+			console.log("hi")
 			res.json({title: 'Tickets Requested', tickets})
 		})
 	}

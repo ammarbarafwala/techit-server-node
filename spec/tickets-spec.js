@@ -6,25 +6,31 @@ const api = request.defaults({
 });
 
 describe('Tickets API Tests:', function () {
-
   let jwtToken = '';
-	
-  let ticket = {
-    subject: "Mobile is broken"
-}
+  let parthJwtToken = '';
 
   beforeAll(function (done) {
     api.post({
       url: '/login',
       body: {
-    username: 'ammar',
-		password: 'abcd'
+        username: 'ammar',
+		    password: 'abcd'
       }
     }, function (err, res, body) {
-      console.log(err)
       expect(res.statusCode).toBe(200);
       jwtToken = body.token;
-      done();
+      api.post({
+        url: '/login',
+        body: {
+          username: 'parth',
+          password: 'abcd'
+        }
+      }, function (err, res, body) {
+        console.log(err)
+        expect(res.statusCode).toBe(200);
+        parthJwtToken = body.token;
+        done();
+      });
     });
   });
 
@@ -33,10 +39,12 @@ describe('Tickets API Tests:', function () {
       url: '/tickets',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
-      },body: ticket
+      },
+      body: {
+        subject: "Plug not working"
+      } 
     }, function (err, res, body) {
       expect(res.statusCode).toBe(200);
-      console.log(res)
       expect(body.subject).not.toBe(' ');
       done();
     });
@@ -58,13 +66,13 @@ describe('Tickets API Tests:', function () {
 	
    it('Get the technicians assigned to a ticket Pass', function (done) {
     api.get({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/technicians',
+      url: '/tickets/5af125ef11a96a2ac19e99f6/technicians',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
       }
     }, function (err, res, body) {
       expect(res.statusCode).toBe(200);
-	  expect(body.length).not.toBeLessThan(1)
+	    expect(body.length).not.toBeLessThan(1)
       done();
     });
   });
@@ -72,7 +80,7 @@ describe('Tickets API Tests:', function () {
 	
    it('Get the technicians assigned to a ticket Fail', function (done) {
     api.get({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/technicians',
+      url: '/tickets/5af125ef11a96a2ac19e99f8/technicians',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
       }
@@ -83,9 +91,9 @@ describe('Tickets API Tests:', function () {
   });
 	
 	
-    it('Set the status of a ticke Pass', function (done) {
+    it('Set the status of a ticket Pass', function (done) {
     api.put({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/status/IN_PROGRESS',
+      url: '/tickets/5af125ef11a96a2ac19e99f6/status/IN_PROGRESS',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
       },
@@ -101,11 +109,11 @@ describe('Tickets API Tests:', function () {
   });
 	
 	
-	it('Set the status of a ticke Fail', function (done) {
+	it('Set the status of a ticket Fail', function (done) {
     api.put({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/status/onprogress',
+      url: '/tickets/5af125ef11a96a2ac19e99f8/status/onprogress',
       headers: {
-        'Authorization': 'Bearer ' + jwtToken
+        'Authorization': 'Bearer ' + parthJwtToken
       },
 	 body:{
 		 description:'Status changed to InProgress'
@@ -116,9 +124,9 @@ describe('Tickets API Tests:', function () {
     });
   });
 	
-	it('Set the status of a ticke Pass', function (done) {
+	it('Set the priority of a ticke Pass', function (done) {
     api.put({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/priority/HIGH',
+      url: '/tickets/5af125ef11a96a2ac19e99f6/priority/HIGH',
       headers: {
         'Authorization': 'Bearer ' + jwtToken
       },
@@ -130,11 +138,11 @@ describe('Tickets API Tests:', function () {
     });
   });
 	
-	it('Set the status of a ticke Fail', function (done) {
+	it('Set the prority of a ticke Fail', function (done) {
     api.put({
-      url: '/tickets/5af09c8b4eba69dd0221d3d5/priority/HIGH',
+      url: '/tickets/5af125ef11a96a2ac19e99f8/priority/HIGH',
       headers: {
-        'Authorization': 'Bearer ' + jwtToken
+        'Authorization': 'Bearer ' + parthJwtToken
       },
 	 body:{
 		 description:'Status changed to InProgress'
@@ -144,7 +152,4 @@ describe('Tickets API Tests:', function () {
       done();
     });
   });
-	
-  
-
 });
