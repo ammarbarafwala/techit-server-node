@@ -73,11 +73,11 @@ userId2 = db.users.insertOne({
 
 userId3 = db.users.insertOne({
     _id: new ObjectId("5af125ef11a96a2ac19e99f3"),
-    username: "kenny",
+    username: "cysun",
     hash: "$2a$10$4Mss6qmmc8FLwLe8sIXrP.1Y1B41Hgagi4nKDmeqk3kT1POnbzmI6",
-    firstName: "Adekola",
-    lastName: "Togunloju",
-    email: "kenny@localhost.com",
+    firstName: "Chengyu",
+    lastName: "Sun",
+    email: "cysun@localhost.com",
     unit: unitId1,
     post: "SUPERVISING_TECHNICIAN"
 }).insertedId;
@@ -146,6 +146,14 @@ ticketId3 = db.tickets.insertOne({
     subject: "Computer Failure",
     requester: userId3,
     unit: unitId2,
+    updates: [{
+        details: "Demo",
+        modifier: userId2
+    },
+    {
+        details: "Demo2",
+        modifier: userId2
+    }],
     technicians: [userId4]
 }).insertedId;
 
@@ -161,5 +169,13 @@ ticketId4 = db.tickets.insertOne({
     _id: new ObjectId("5af125ef11a96a2ac19e99f9"),
     subject: "Peeling Paint",
     requester: userId3,
+    updates: [{
+        details: "Demo",
+        modifier: userId2
+    },
+    {
+        details: "Demo2",
+        modifier: userId2
+    }],
     unit: unitId1
 }).insertedId;

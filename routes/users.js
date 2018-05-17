@@ -15,7 +15,7 @@ router.get('/:userId/tickets', function (req, res, next) {
 			if (err) return next(err)
 			console.log("hi")
 			res.json({title: 'Tickets Requested', tickets})
-		})
+		}).populate("modifier");
 	}
 	else
 		next(createError(403, 'Unauthorized Access'))
