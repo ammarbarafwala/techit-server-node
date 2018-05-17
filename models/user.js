@@ -25,7 +25,7 @@ let userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    phone: Number,
+    phone: String,
     post: {
         type: String,
         uppercase: true,
