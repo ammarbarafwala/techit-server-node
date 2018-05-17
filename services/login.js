@@ -13,6 +13,7 @@ router.post('/', (req, res, next) => {
     username: req.body.username
   }, (err, user) => {
     if (err) return next(err);
+    if (user == null)  return next(createError(401, 'Username invalid'))
       checkPassword(req.body.password, user.hash, (err, result)=>{
         if(err || !result) return next(createError(401, 'Password invalid'))
         res.json({
