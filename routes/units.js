@@ -37,4 +37,11 @@ router.get('/:unitId/tickets',(req, res, next)=>{
         next(createError(403, 'Unauthorized Access'))
 })
 
+router.get('/' ,(req, res, next)=>{
+    Unit.find({},(err, result)=>{
+        if(err) return next(err)
+        res.json(result)
+    })
+})
+
 module.exports = router;
