@@ -16,11 +16,11 @@ router.post('/', (req, res, next) => {
 		if (user == null)  return next(createError(401, 'Username invalid'))
 			checkPassword(req.body.password, user.hash, (err, result)=>{
 				if(err || !result) return next(createError(401, 'Password invalid'))
-				let exp = Math.floor(Date.now() / 1000) + 2
+				let exp = Math.floor(Date.now() / 1000) + 120
 				res.json({
 					token: jwt.sign({profile:user}, jwtSecret),
 					exp,
-					user:user._id
+					userId:user._id
 				})
 			})
 	})

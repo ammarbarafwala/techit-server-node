@@ -9,7 +9,9 @@ router.post('/', function (req, res, next) {
     req.body.requester = req.user.profile._id
 	new Ticket(req.body).save((err, ticket)=>{
         if(err) return next(err)
-        res.json(ticket)
+        ticket.populate('unit',(err,ticket)=>{
+            res.json(ticket)
+        })
     })
 })
 
