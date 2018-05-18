@@ -29,6 +29,11 @@ db.units.createIndex({
 }, {
         unique: true
     });
+    //text search
+
+db.tickets.createIndex({
+    '$**': 'text'
+})
 
 unitId1 = db.units.insertOne({
     _id: new ObjectId("5af127e3ee1b9efe2a362291"),

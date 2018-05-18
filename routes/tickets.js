@@ -13,6 +13,17 @@ router.post('/', function (req, res, next) {
     })
 })
 
+router.get('/search', function(req, res, next){
+    Ticket.find({$text: {$search: req.query.key}}, (err, tickets)=> { 
+        if (err) return next(err)
+            /*tickets = tickets.filter((ticket)=>{
+               return ticket.requester == req.user.profile._id
+            })*/
+			res.json(tickets)
+    })
+    .exec();
+})
+
 router.get('/:ticketId/technicians', function (req, res, next) {
 	Ticket.findById(req.params.ticketId,(err,ticket)=>{
         if(err) return next(err)
